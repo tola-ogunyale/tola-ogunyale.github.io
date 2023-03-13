@@ -17,7 +17,7 @@
     <!-- Three.js library -->
     <script src="https://threejs.org/build/three.min.js"></script>
     <!-- GLTFLoader.js source -->
-    <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/jsm/loaders/GLTFLoader.js"></script>
 
     <script>
       const renderer = new THREE.WebGLRenderer();
@@ -41,7 +41,7 @@
       function loadGLTF() {
         let balloonLoader = new THREE.GLTFLoader();
 
-        balloonLoader.load('./assets/traffic_cone.gltf', (gltf) => {
+        balloonLoader.load('assets/traffic_cone.gltf', (gltf) => {
           Mesh = gltf.scene;
           Mesh.scale.set(0.2,0.2,0.2);
           scene.add(Mesh);
