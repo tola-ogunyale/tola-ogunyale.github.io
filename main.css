@@ -1,11 +1,11 @@
 body {
-  background-color: 	#4d1a00;
-  background: rgb(231,162,127);
-  background-size: 40px 40px;
-  background-image: radial-gradient(circle, white 1px, rgba(0, 0, 0, 0) 1px);
-  margin: 0;
-  display: flex;
+  background-color: 	#f6b730;
+}
+
+#threejs-canvas {
+  position: fixed;
   height: 100vh;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  left: 0;
+  top: 0;
 }
