@@ -5,7 +5,9 @@
 }
 body,html {
   overflow-x: hidden;
-  font-family: 'Lato', sans-serif;
+  background: #FFD670;
+  background-size: 100px 100px;
+  background-image: radial-gradient(circle, white 1px, rgba(0, 0, 0, 0) 1px);
 
 }
 #threejs-canvas {
@@ -15,19 +17,27 @@ body,html {
   z-index: 1;
 }
 
-nav {
-  color: white;
+.greeting {
+  font-family: 'Karla', sans-serif;
+  color: black;
   z-index: 2;
   position: relative;
-  padding:  4rem 8rem;
+  padding:  4rem 4rem 0rem 4rem;
   display: flex;
   justify-content: space-between;
 }
-nav a {
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
+h2, button {
+  font-family: 'Inconsolata', monospace;
+  color: black;
+  z-index: 2;
+  position: relative;
+  padding: 0.5rem 4rem 0rem 4rem;
 }
+
+#intro-1 {
+  font-weight: 700;
+}
+
 
 nav ul {
   list-style: none;
@@ -43,4 +53,29 @@ nav ul {
   left: 50%;
   top: 75%;
   transform: translate(-50%, -75%);
+}
+
+.button {
+  font-family: 'Inconsolata', monospace;
+  background: none;
+  position: relative;
+  box-sizing: border-box;
+  box-shadow:inset 0 -0.6em 0 -0.35em rgba(f,f,f,f.17);
+  padding: 0.75rem 1.5rem;
+  border: 0.1rem solid white;
+  border-radius: 0.5rem;
+  text-align: center;
+  margin: 4rem;
+  transition: all 0.2s;
+  transition-timing-function: ease-in-out;
+}
+
+.button:hover {
+  color: #000000;
+  background-color: white;
+  top: 0.10rem;
+}
+
+.button:active {
+  top: 0.1rem;
 }

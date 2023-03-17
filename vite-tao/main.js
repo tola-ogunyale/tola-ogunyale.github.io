@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import gsap from 'gsap';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import './style.css';
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 
@@ -13,64 +14,77 @@ const sizes = {
 };
 
 
-//adding object to scene
-const geometry = new THREE.SphereGeometry(3, 64, 64);
+//adding object to scene; TESTING
+/*const geometry = new THREE.SphereGeometry(3, 64, 64);
 const material = new THREE.MeshStandardMaterial({
   color: '#00ff83',
 })
 const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+scene.add(mesh);*/
 
+
+// ######## IMPORTING BLENDER FILE ###########
+const loader = new GLTFLoader();
+
+// Load a glTF resource
+loader.load(
+	// resource URL
+	'assets/traffic_cone.glb',
+	// called when the resource is loaded
+	function ( gltf ) {
+    var cone = gltf.scene;
+
+		scene.add( cone );
+
+    const gltfTimeline = gsap.timeline({defaults: {duration: 2.5}});
+    gltfTimeline.fromTo(cone.scale, {z:0, x:0, y:0}, {z:1, x:1, y:1});
+
+
+		gltf.animations; // Array<THREE.AnimationClip>
+		gltf.scene; // THREE.Group
+		gltf.scenes; // Array<THREE.Group>
+		gltf.cameras; // Array<THREE.Camera>
+		gltf.asset; // Object
+
+	},
+	// called while loading is progressing
+	function ( xhr ) {
+
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'An error happened' );
+
+	}
+);
+
+// ## SETTING UP ENVIROMENT ######
 //setting up lights
-const light = new THREE.PointLight(0xffffff, 1, 100);
-light.position.set(0, 10, 10);
-light.intensity = 1.5;
-scene.add(light);
+const hemiLight = new THREE.HemisphereLight( 0xFF70A6, 0x87F6FF, 1);
+const hemiLight2 = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
 
-//extra lights
-let dlight, dlight2, hemiLight, pointLight, ambientLight, spotLight;
-//ambient lights
-ambientLight = new THREE.AmbientLight("red", 1000);
-//directional lights
-dlight = new THREE.DirectionalLight("white", 1);
-dlight.position.set(10, 20, 16);
-dlight2 = new THREE.DirectionalLight("purple", 1);
-dlight2.position.set(-10, 20, 16);
-//hemisphere lights
-hemiLight = new THREE.HemisphereLight(0xffeeb1,0x080820, 1);
-//spot lights
-spotLight = new THREE.SpotLight(0xffa95c,3, 0, 2);
-spotLight.castShadow = true;
-//point lights
-pointLight = new THREE.PointLight("purple",10,0,2);
-pointLight.position.set(0, 20, 0);
+scene.add( hemiLight );
+scene.add( hemiLight2 );
 
 
-ambientLight.intensity = 0.5;
-pointLight.intensity = 0.5;
-dlight.intensity = 0.5;
-dlight2.intensity = 0.5;
-spotLight.intensity = 0.75;
-//scene.add(ambientLight);
-scene.add(dlight);
-scene.add(dlight2);
-scene.add(hemiLight);
-scene.add(spotLight);
-scene.add(pointLight);
-
-
-
-
+const ambiLight = new THREE.AmbientLight( 0x404040 ); // soft white light
+ambiLight.intensity = 0.75;
+scene.add( ambiLight );
 
 //setting up camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 100); 
-camera.position.z = 20;
+camera.position.y = 5;
+camera.position.z = 10;
 scene.add(camera);
-
 
 //setting up renderer
 const canvas = document.querySelector('#threejs-canvas');
-const renderer = new THREE.WebGL1Renderer({canvas});
+const renderer = new THREE.WebGL1Renderer({canvas}, {alpha: true});
+renderer.setClearColor( 0x000000, 0 );
+//renderer.setClearColor( 0x87F6FF, 1 );
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(2);
 renderer.render(scene, camera);
@@ -81,7 +95,7 @@ controls.enableDamping = true;
 controls.enablePan = false;
 controls.enableZoom = false;
 controls.autoRotate = true;
-controls.autoRotateSpeed = 5;
+controls.autoRotateSpeed = 4;
 
 
 // > updating sizing
@@ -110,31 +124,35 @@ const loop = () => {
 loop ();
 
 //animation
-const timelineMagic = gsap.timeline({defaults: {duration: 1}});
-timelineMagic.fromTo(mesh.scale, {z:0, x:0, y:0}, {z:1, x:1, y:1});
-timelineMagic.fromTo("nav", {y:"-100%"}, {y:"0%"});
-timelineMagic.fromTo(".title", {opacity: 0}, {opacity: 1});
+const htmlTimeline = gsap.timeline({defaults: {duration: 1}});
+htmlTimeline.fromTo(".greeting", {y:"-100%"}, {y:"0%"});
+htmlTimeline.fromTo("#intro-1", {
+  y:"-250%",
+  opacity: -2
+}, 
+{
+  y:"0%", 
+  opacity: 1,
+  duration: 2.5 
+});
+htmlTimeline.fromTo("#intro-2", {
+  y:"-250%",
+  opacity: -2
+}, 
+{
+  y:"0%", 
+  opacity: 1,
+  duration: 2.5 
+});
+htmlTimeline.fromTo("#call-to-action", {
+  y:"-350%",
+  opacity: -9
+}, 
+{
+  y:"0%", 
+  opacity: 1,
+  duration: 2.5 
+});
+//htmlTimeline.fromTo(".intro", {opacity: 0.1}, {opacity: 1});
+//htmlTimeline.fromTo(".title", {opacity: 0}, {opacity: 1});
 
-// mouse animations
-let mouseDown = false;
-let objColor = [];
-window.addEventListener('mousedown', () => (mouseDown = true));
-window.addEventListener('mousedup', () => (mouseDown = false));
-
-window.addEventListener('mousemove', (e) => {
-  if (mouseDown){
-    objColor = [
-      Math.round((e.pageX / sizes.width) * (255)),
-      Math.round((e.pageY / sizes.height) * (255)),
-      150,
-    ]
-    //animation
-    let newObjColor = new THREE.Color(`rgb(${objColor.join(",")})`)
-    //new THREE.Color(`rgb(0,100,150)`)
-    gsap.to(mesh.material.color, {
-      r: newObjColor.r, 
-      g: newObjColor.g, 
-      b: newObjColor.b,
-    })
-  }
-})
