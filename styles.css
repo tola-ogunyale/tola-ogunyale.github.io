@@ -1,0 +1,47 @@
+/* IDS */
+#container {
+    /* border: 2px solid #323426; */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 15px;
+
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+}
+
+#window-box-one {
+    grid-area: 1 / 1 / 4 / 2;
+}
+
+#window-box-two {
+    grid-area: 2 / 2 / 6 / 3;
+}
+
+#window-box-three {
+    grid-area: 2 / 3 / 5 / 5;
+}
+
+#window-box-four {
+    grid-area: 3 / 5 / 6 / 6;
+}
+
+/* CLASSES */
+.window-box {
+    border: 2px solid #323426;
+    height: 50vh;
+
+}
+
+/* ELEMENTS */
+body {
+    background-color: #ebeade;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+
+    align-items: center;
+    justify-content: center;
+}
